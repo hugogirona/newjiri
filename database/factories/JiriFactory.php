@@ -2,10 +2,13 @@
 
 namespace Database\Factories;
 
+use App\Models\Jiri;
+use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Jiri>
+ * @extends Factory<Jiri>
  */
 class JiriFactory extends Factory
 {
@@ -17,7 +20,13 @@ class JiriFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'name' => fake()->country(),
+            'starts_at' => Carbon::now()->addDays(rand(1, 30)),
+            'location' => fake()->city(),
+            'description' => fake()->boolean()
+                ? fake()->paragraphs(2, true)
+                : null,
+            'user_id' => User::factory(),
         ];
     }
 }

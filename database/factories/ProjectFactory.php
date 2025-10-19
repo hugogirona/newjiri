@@ -2,10 +2,12 @@
 
 namespace Database\Factories;
 
+use App\Models\Project;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Project>
+ * @extends Factory<Project>
  */
 class ProjectFactory extends Factory
 {
@@ -17,7 +19,11 @@ class ProjectFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'title' => fake()->words(2, true),
+            'description' => fake()->boolean()
+                ? fake()->words(2, true)
+                : null,
+            'user_id' => User::factory()
         ];
     }
 }

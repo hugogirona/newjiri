@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('jiris', function (Blueprint $table) {
             $table->id();
             $table->string('name');
+            $table->string('location');
             $table->string('description')->nullable();
             $table->timestamp('starts_at');
             $table->foreignId('user_id')->constrained()->cascadeOnDelete();
