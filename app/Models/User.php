@@ -24,6 +24,10 @@ class User extends Authenticatable
         'last_name',
         'email',
         'password',
+        'name',
+        'starts_at',
+        'location',
+        'description',
     ];
 
     /**
@@ -61,7 +65,7 @@ class User extends Authenticatable
             ->implode('');
     }
 
-    public function jiri(): HasMany
+    public function jiris(): HasMany
     {
         return $this->hasMany(Jiri::class);
     }

@@ -17,14 +17,12 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-
         $user_a = User::factory()->create([
             'first_name' => 'Hugo',
             'last_name' => 'Girona',
             'email' => 'gironahugo@gmail.com',
             'password' => bcrypt('change_this'),
         ]);
-
 
         $user_b = User::factory()->create([
             'first_name' => 'Valentine',
@@ -33,32 +31,36 @@ class DatabaseSeeder extends Seeder
             'password' => bcrypt('change_that'),
         ]);
 
-        //Contact pool global
-        $contacts = Contact::factory(15)->create();
+        // Contact pool pour Hugo (user_a)
+        $contacts = Contact::factory(15)->create([
+            'user_id' => $user_a->id,
+        ]);
 
-        //Creation de 4 projets sur base d'un array de noms
-        $project_titles = ['CV', 'Site Client', 'PFE', 'Portfolio',];
+        // Création de 4 projets pour Hugo (user_a)
+        $project_titles = ['CV', 'Site Client', 'PFE', 'Portfolio'];
 
-        collect($project_titles)->map(function ($title) {
+        collect($project_titles)->map(function ($title) use ($user_a) {
             return Project::factory()->create([
                 'title' => $title,
+                'user_id' => $user_a->id,
             ]);
         });
 
         $projects = Project::all();
 
-        //Creation de 3 jiris sur base d'un array de noms
+        // Création de 3 jiris pour Hugo (user_a)
         $jiri_names = ['Jiri 1', 'Jiri 2', 'Jiri 3'];
 
-        collect($jiri_names)->map(function ($name) {
+        collect($jiri_names)->map(function ($name) use ($user_a) {
             return Jiri::factory()->create([
                 'name' => $name,
+                'user_id' => $user_a->id,
             ]);
         });
 
         $jiris = Jiri::all();
 
-        //On attache les projets aux jiris
+        // On attache les projets aux jiris
         $jiris->each(function ($jiri) use ($projects, $contacts) {
             $jiri->projects()->attach(
                 $project_ids = $projects->random(rand(1, $projects->count()))->pluck('id')->toArray()
@@ -68,7 +70,7 @@ class DatabaseSeeder extends Seeder
 
             $participants = $contacts->random(rand(6, $contacts->count()));
 
-            //On attache les participants aux jiris
+            // On attache les participants aux jiris
             $syncAttendances = [];
 
             foreach ($participants as $participant) {
@@ -81,7 +83,7 @@ class DatabaseSeeder extends Seeder
             }
             $jiri->contacts()->sync($syncAttendances);
 
-            //On attache les devoirs aux contacts
+            // On attache les devoirs aux contacts
             if ($assignment_ids->isNotEmpty()) {
                 foreach ($syncAttendances as $contactId => $pivot) {
                     if ($pivot['role'] === ContactRoles::Evaluated->value) {

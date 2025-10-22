@@ -6,6 +6,8 @@ use App\Models\Jiri;
 use App\Models\Project;
 
 it('is possible to retrieve many evaluated and many evaluators from a jiri', function () {
+    Mail::fake();
+
     $jiri = Jiri::factory()
         ->hasAttached(
             Contact::factory()->count(7),
@@ -24,6 +26,8 @@ it('is possible to retrieve many evaluated and many evaluators from a jiri', fun
 });
 
 it('is possible to retrieve many projects from a jiri', function () {
+    Mail::fake();
+
     $jiri = Jiri::factory()
         ->hasAttached(
             Project::factory()->count(3)
@@ -35,6 +39,8 @@ it('is possible to retrieve many projects from a jiri', function () {
 });
 
 it('is possible to retrieve many assignments from a evaluated', function () {
+    Mail::fake();
+
     $jiri = Jiri::factory()
         ->hasAttached(
             Project::factory()->count(3)

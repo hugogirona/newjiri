@@ -15,6 +15,8 @@ it('can create a contact', function () {
 });
 
 it('can attend multiple jiris', function () {
+    Mail::fake();
+
     $contact = Contact::factory()
         ->hasAttached(
             Jiri::factory()->count(3),
@@ -27,6 +29,8 @@ it('can attend multiple jiris', function () {
 });
 
 it('can be an evaluator in a jiri', function () {
+    Mail::fake();
+
     $jiri = Jiri::factory()
         ->hasAttached(
             Contact::factory()->count(1),
@@ -42,6 +46,8 @@ it('can be an evaluator in a jiri', function () {
 });
 
 it('can be evaluated in a jiri', function () {
+    Mail::fake();
+
     $jiri = Jiri::factory()
         ->hasAttached(
             Contact::factory()->count(1),
@@ -57,6 +63,8 @@ it('can be evaluated in a jiri', function () {
 });
 
 it('can have multiple implementations across different jiris', function () {
+    Mail::fake();
+
     $contact = Contact::factory()->create();
 
     $jiri1 = Jiri::factory()
@@ -93,6 +101,8 @@ it('can have multiple implementations across different jiris', function () {
 });
 
 it('can retrieve all assignments from evaluated contact', function () {
+    Mail::fake();
+
     $jiri = Jiri::factory()
         ->hasAttached(
             Project::factory()->count(5)
@@ -115,6 +125,8 @@ it('can retrieve all assignments from evaluated contact', function () {
 });
 
 it('evaluator contact has no implementations', function () {
+    Mail::fake();
+
     $jiri = Jiri::factory()
         ->hasAttached(
             Project::factory()->count(3)
@@ -131,6 +143,8 @@ it('evaluator contact has no implementations', function () {
 });
 
 it('can be deleted and cascade delete implementations', function () {
+    Mail::fake();
+
     $jiri = Jiri::factory()
         ->hasAttached(
             Project::factory()->count(2)

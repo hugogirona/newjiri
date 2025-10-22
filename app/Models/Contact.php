@@ -2,13 +2,18 @@
 
 namespace App\Models;
 
+use App\Policies\ContactPolicy;
 use Database\Factories\ContactFactory;
+use Illuminate\Database\Eloquent\Attributes\UsePolicy;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Facades\Storage;
 
+#[UsePolicy(ContactPolicy::class)]
 class Contact extends Model
 {
     /** @use HasFactory<ContactFactory> */
@@ -19,6 +24,7 @@ class Contact extends Model
         'last_name',
         'email',
         'avatar',
+        'user_id',
     ];
 
     public function user(): BelongsTo
@@ -45,7 +51,19 @@ class Contact extends Model
 
     public function assignments(): BelongsToMany
     {
-        return $this->belongsToMany(Assignment::class, 'implementations')->withTimestamps();
+        return $this->belongsToMany(Assignment::class, 'implementations')
+            ->withTimestamps();
     }
+
+    protected function avatarUrl(): Attribute
+    {
+        return Attribute::get(function (): string {
+            $disk = Storage::disk('public');
+            $dimensions = '200x200';
+            $relativePath = "images/contact/{$dimensions}/{$this->avatar}";
+                return $disk->url($relativePath);
+        });
+    }
+
 
 }

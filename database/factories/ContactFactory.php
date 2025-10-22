@@ -22,7 +22,7 @@ class ContactFactory extends Factory
             'first_name' => fake()->firstName(),
             'last_name' => fake()->lastName(),
             'email' => fake()->unique()->safeEmail(),
-            'avatar' => fake()->imageUrl(),
+            'avatar' => null,
             'user_id' => User::factory(),
         ];
     }

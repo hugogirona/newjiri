@@ -14,6 +14,8 @@ it('can create a project', function () {
 });
 
 it('can be assigned to multiple jiris', function () {
+    Mail::fake();
+
     $project = Project::factory()
         ->hasAttached(
             Jiri::factory()->count(3)
@@ -25,6 +27,8 @@ it('can be assigned to multiple jiris', function () {
 });
 
 it('can retrieve assignments from a project', function () {
+    Mail::fake();
+
     $project = Project::factory()
         ->hasAttached(
             Jiri::factory()->count(2)
@@ -35,6 +39,8 @@ it('can retrieve assignments from a project', function () {
 });
 
 it('can retrieve implementations from a project through assignments', function () {
+    Mail::fake();
+
     $jiri = Jiri::factory()
         ->hasAttached(
             Project::factory()->count(1)
@@ -59,6 +65,8 @@ it('can retrieve implementations from a project through assignments', function (
 });
 
 it('can be deleted and cascade delete assignments', function () {
+    Mail::fake();
+
     $project = Project::factory()
         ->hasAttached(
             Jiri::factory()->count(2)
